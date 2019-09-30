@@ -1,0 +1,7 @@
+[package]
+name = "savep"
+version = "0.1.0"
+authors = ["Alessandro Toia <gort818@gmail.com>"]
+edition = "2018"
+
+[dependencies]
