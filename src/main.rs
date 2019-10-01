@@ -1,6 +1,7 @@
 extern crate clap;
 extern crate xdg;
 use clap::{App, AppSettings, Arg};
+use std::fs::File;
 
 fn main() {
     let matches = App::new("savep")
@@ -26,11 +27,13 @@ fn main() {
     if matches.is_present("save") {
         println!("save");
         let xdg_dirs = xdg::BaseDirectories::with_prefix("savep").unwrap();
-        let config_path = xdg_dirs.place_config_file("restore.sh")
-                          .expect("cannot create configuration directory");
-let mut config_file = try!(File::create(config_path));
-try!(write!(&mut config_file, "configured = 1"));
-        //find ./ -depth -printf 'chmod %m %p\n' > saved_permission
+        let config_path = xdg_dirs
+            .place_config_file("restore.sh")
+            .expect("cannot create configuration directory");
+        let _config_file = File::create(config_path)
+            .expect("cannot create file");
+
+    //find ./ -depth -printf 'chmod %m %p\n' > saved_permission
     } else if matches.is_present("restore") {
         println!("restore");
     }
