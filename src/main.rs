@@ -4,10 +4,9 @@ extern crate xdg;
 use clap::{App, AppSettings, Arg};
 use std::fs::File;
 use std::io::Write;
+
 #[macro_use]
 extern crate run_script;
-
-//use run_script::ScriptOptions;
 
 fn main() {
     let matches = App::new("savep")
@@ -52,8 +51,6 @@ fn main() {
         config_file
             .write_all(output.as_bytes())
             .expect("unable to write");
-    //fs::write(config_file, output).expect("Unable to write file");
-    //config_file.tawdawd();
     } else if matches.is_present("restore") {
         println!("restore");
     }

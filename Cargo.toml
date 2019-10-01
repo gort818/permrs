@@ -5,9 +5,7 @@ authors = ["Alessandro Toia <gort818@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-cmd_lib = "0.7.5"
 nix = "0.15.0"
 clap = "2.33.0"
 xdg = "2.2.0"
-filepath = "0.1.1"
 run_script = "0.3.2"
