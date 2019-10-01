@@ -1,5 +1,4 @@
 extern crate clap;
-extern crate cmd_lib;
 extern crate xdg;
 use clap::{App, AppSettings, Arg};
 use std::fs::File;
