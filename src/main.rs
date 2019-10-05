@@ -56,7 +56,6 @@ fn main() {
             .expect("unable to write");
         println!("{:?}", xdg_dirs.get_config_home());
     } else if matches.is_present("restore") {
-        //TODO check if file path exists if not tell user to run save.
         println!("restore");
         let dir = env::set_current_dir(&config_dir);
         match dir {
@@ -68,7 +67,5 @@ fn main() {
                 println!("Please run the save option first!\nError: {}", error);
             }
         }
-
-        //println!("Successfully changed working directory to {}", config_dir.display());
     }
 }
