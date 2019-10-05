@@ -1,13 +1,16 @@
 extern crate clap;
 extern crate xdg;
 use clap::{App, AppSettings, Arg};
+use std::env;
 use std::fs::File;
 use std::io::Write;
-
+use std::path::Path;
 #[macro_use]
 extern crate run_script;
 
 fn main() {
+    let xdg_dirs = xdg::BaseDirectories::with_prefix("savep").unwrap();
+    let config_dir = xdg_dirs.get_config_home();
     let matches = App::new("savep")
         .version(env!("CARGO_PKG_VERSION"))
         .setting(AppSettings::ArgRequiredElseHelp)
@@ -30,10 +33,11 @@ fn main() {
         .get_matches();
     if matches.is_present("save") {
         println!("save");
-        let xdg_dirs = xdg::BaseDirectories::with_prefix("savep").unwrap();
+        //let xdg_dirs = xdg::BaseDirectories::with_prefix("savep").unwrap();
         let config_path = xdg_dirs
             .place_config_file("restore.sh")
             .expect("cannot create configuration directory");
+        println!("{:?}", xdg_dirs.get_config_home());
         let mut config_file = File::create(config_path).unwrap();
         let (code, output, error) = run_script!(
             r#"
@@ -46,11 +50,25 @@ fn main() {
         println!("Exit Code: {}", code);
         println!("Output: {}", output);
         println!("Error: {}", error);
-        println!("path{:#?}", config_file);
+        //println!("path{:#?}", config_file);
         config_file
             .write_all(output.as_bytes())
             .expect("unable to write");
+        println!("{:?}", xdg_dirs.get_config_home());
     } else if matches.is_present("restore") {
+        //TODO check if file path exists if not tell user to run save.
         println!("restore");
+        let dir = env::set_current_dir(&config_dir);
+        match dir {
+            Ok(content) => println!(
+                "Successfully changed working directory to {}",
+                config_dir.display()
+            ),
+            Err(error) => {
+                println!("Please run the save option first!\nError: {}", error);
+            }
+        }
+
+        //println!("Successfully changed working directory to {}", config_dir.display());
     }
 }
