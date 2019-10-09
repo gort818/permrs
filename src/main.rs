@@ -4,12 +4,14 @@ use clap::{App, AppSettings, Arg};
 use std::env;
 use std::fs::File;
 use std::io::Write;
+use std::os::unix::fs::PermissionsExt;
 use std::process;
+use walkdir::WalkDir;
 #[macro_use]
 extern crate run_script;
 
 fn main() {
-    let xdg_dirs = xdg::BaseDirectories::with_prefix("savep").unwrap();
+    let xdg_dirs = xdg::BaseDirectories::with_prefix(env!("CARGO_PKG_NAME")).unwrap();
     let config_dir = xdg_dirs.get_config_home();
     let matches = App::new("savep")
         .version(env!("CARGO_PKG_VERSION"))
@@ -17,7 +19,7 @@ fn main() {
         .author("Alessandro Toia <gort818@gmail.com>")
         .about("Utlity to save and restore unix permissions")
         .arg(
-            Arg::with_name("save")
+            Arg::with_name("save") // add option for location and if not provided use / "root"
                 .short("s")
                 .long("save")
                 .help("Save unix permissions")
@@ -39,21 +41,34 @@ fn main() {
         println!("{:?}", xdg_dirs.get_config_home());
         let mut config_file = File::create(config_path).unwrap();
         writeln!(config_file, "#!/bin/bash").expect("could not write to file");
-        let (code, output, error) = run_script!(
-            r#"
-        find ~+ ~/ -depth  -printf 'chmod  %m %p \n'
-        exit 0
-        "#
-        )
-        .unwrap();
+        // let (code, output, error) = run_script!(
+        //     r#"
+        // find ~+ ~/ -depth  -printf 'chmod  %m %p \n'
+        // exit 0
+        // "#
+        // )
+        // .unwrap();
 
-        println!("Output: \n{}", output);
-        println!("Error: \n{}", error);
-        println!("Exit Code: \n{}", code);
-        config_file
-            .write_all(output.as_bytes())
-            .expect("unable to write");
-        println!("{:?}", xdg_dirs.get_config_home());
+        // println!("Output: \n{}", output);
+        // println!("Error: \n{}", error);
+        // println!("Exit Code: \n{}", code);
+        for entry in WalkDir::new("./").into_iter().filter_map(|e| e.ok()) {
+            let entry = entry;
+            let permissions = entry.metadata().unwrap().permissions().mode();
+            let perm_oct = format!("{:o}", permissions);
+            let last_four_at = perm_oct
+                .char_indices()
+                .rev()
+                .map(|(i, _)| i)
+                .nth(3)
+                .unwrap();
+            let last_four = &perm_oct[last_four_at..];
+            let output = format!("chmod {} {}\n", last_four, entry.path().display());
+            print!("{}", output);
+            config_file
+                .write_all(output.as_bytes())
+                .expect("unable to write");
+        }
     } else if matches.is_present("restore") {
         let dir = env::set_current_dir(&config_dir);
         match dir {
