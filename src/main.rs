@@ -52,7 +52,10 @@ fn main() {
         // println!("Output: \n{}", output);
         // println!("Error: \n{}", error);
         // println!("Exit Code: \n{}", code);
-        for entry in WalkDir::new("./").into_iter().filter_map(|e| e.ok()) {
+        for entry in WalkDir::new("/home/alessandro/test/")
+            .into_iter()
+            .filter_map(|e| e.ok())
+        {
             let entry = entry;
             let permissions = entry.metadata().unwrap().permissions().mode();
             let perm_oct = format!("{:o}", permissions);
@@ -63,7 +66,13 @@ fn main() {
                 .nth(3)
                 .unwrap();
             let last_four = &perm_oct[last_four_at..];
-            let output = format!("chmod {} {}\n", last_four, entry.path().display());
+            let output = format!(
+                "chmod {} \"{}\"\necho running chmod {} on \"{}\"\n",
+                last_four,
+                entry.path().display(),
+                last_four,
+                entry.path().display()
+            );
             print!("{}", output);
             config_file
                 .write_all(output.as_bytes())
@@ -72,17 +81,16 @@ fn main() {
     } else if matches.is_present("restore") {
         let dir = env::set_current_dir(&config_dir);
         match dir {
-            Ok(dir) => println!(
-                "Successfully changed working directory to {} {:?}",
+            Ok(_dir) => println!(
+                "Successfully changed working directory to {} ",
                 config_dir.display(),
-                dir
             ),
             Err(error) => {
                 println!("Please run the save option first!\nError: {}", error);
                 process::exit(0);
             }
         }
-        println!("Restoring permissions please wait...");
+        println!("Restoring permissions please wait...\n");
         let (code, output, error) = run_script!(
             r#"
          chmod +x ./restore.sh
@@ -92,8 +100,8 @@ fn main() {
         )
         .unwrap();
 
-        println!("Exit Code: {}", code);
-        println!("Output: {}", output);
+        println!("Output: \n{}", output);
         println!("Error: {}", error);
+        println!("Exit Code: {}", code);
     }
 }

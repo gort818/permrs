@@ -1,5 +1,5 @@
 [package]
-name = "savep"
+name = "permrs"
 version = "0.1.0"
 authors = ["Alessandro Toia <gort818@gmail.com>"]
 edition = "2018"
@@ -9,3 +9,4 @@ nix = "0.15.0"
 clap = "2.33.0"
 xdg = "2.2.0"
 run_script = "0.3.2"
+walkdir = "2.2.9"
