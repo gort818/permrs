@@ -66,6 +66,7 @@ fn main() {
                 .nth(3)
                 .unwrap();
             let last_four = &perm_oct[last_four_at..];
+            //TODO sperate output and echo command for restore.sh
             let output = format!(
                 "chmod {} \"{}\"\necho running chmod {} on \"{}\"\n",
                 last_four,
@@ -80,6 +81,7 @@ fn main() {
         }
     } else if matches.is_present("restore") {
         let dir = env::set_current_dir(&config_dir);
+        //TODO also need to check if restore.sh exists!
         match dir {
             Ok(_dir) => println!(
                 "Successfully changed working directory to {} ",
