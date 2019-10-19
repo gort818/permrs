@@ -1,6 +1,7 @@
+#[macro_use]
 extern crate clap;
-extern crate xdg;
 use clap::{App, AppSettings, Arg};
+extern crate xdg;
 use std::env;
 use std::fs::File;
 use std::io::Write;
@@ -13,26 +14,27 @@ extern crate run_script;
 fn main() {
     let xdg_dirs = xdg::BaseDirectories::with_prefix(env!("CARGO_PKG_NAME")).unwrap();
     let config_dir = xdg_dirs.get_config_home();
-    let matches = App::new("savep")
-        .version(env!("CARGO_PKG_VERSION"))
-        .setting(AppSettings::ArgRequiredElseHelp)
-        .author("Alessandro Toia <gort818@gmail.com>")
-        .about("Utlity to save and restore unix permissions")
-        .arg(
-            Arg::with_name("save") // add option for location and if not provided use / "root"
-                .short("s")
-                .long("save")
-                .help("Save unix permissions")
-                .conflicts_with("restore"),
-        )
-        .arg(
-            Arg::with_name("restore")
-                .short("r")
-                .long("restore")
-                .help("Restore unix permissions")
-                .conflicts_with("save"),
-        )
-        .get_matches();
+    let yaml = load_yaml!("cli.yml");
+    let matches = App::from_yaml(yaml).get_matches();
+        // .version(env!("CARGO_PKG_VERSION"))
+        // .setting(AppSettings::ArgRequiredElseHelp)
+        // .author("Alessandro Toia <gort818@gmail.com>")
+        // .about("Utlity to save and restore unix permissions")
+        // .arg(
+        //     Arg::with_name("save") // add option for location and if not provided use / "root"
+        //         .short("s")
+        //         .long("save")
+        //         .help("Save unix permissions")
+        //         .conflicts_with("restore"),
+        // )
+        // .arg(
+        //     Arg::with_name("restore")
+        //         .short("r")
+        //         .long("restore")
+        //         .help("Restore unix permissions")
+        //         .conflicts_with("save"),
+        // )
+        //.get_matches();
     if matches.is_present("save") {
         //let xdg_dirs = xdg::BaseDirectories::with_prefix("savep").unwrap();
         let config_path = xdg_dirs
