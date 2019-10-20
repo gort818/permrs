@@ -3,7 +3,7 @@ extern crate clap;
 use clap::App;
 extern crate xdg;
 use std::env;
-use std::fs::{self, File};
+use std::fs::File;
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
@@ -17,7 +17,7 @@ fn main() {
     let config_dir = xdg_dirs.get_config_home();
     let yaml = load_yaml!("cli.yml");
     let matches = App::from_yaml(yaml).get_matches();
-    let mut dir_path = matches.value_of("path").unwrap();
+    let dir_path = matches.value_of("path").unwrap();
     let dir_exists = Path::new(dir_path).exists();
     if matches.is_present("save") {
         if !dir_exists {
@@ -27,7 +27,6 @@ fn main() {
         let config_path = xdg_dirs
             .place_config_file("restore.sh")
             .expect("cannot create configuration directory");
-        //println!("{:?}", xdg_dirs.get_config_home());
         let mut config_file = File::create(config_path).unwrap();
         writeln!(config_file, "#!/bin/bash").expect("could not write to file");
         for entry in WalkDir::new(dir_path).into_iter().filter_map(|e| e.ok()) {

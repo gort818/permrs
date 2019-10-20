@@ -7,7 +7,6 @@ args:
     - path:
        short: p
        long: path
-       conflicts_with: restore
        help: "Set path to save permissions"
        takes_value: true
        default_value: "/home/alessandro/test"
@@ -20,4 +19,4 @@ args:
         short: r
         long: restore
         help: Restore unix permissions
-        conflicts_with: save,PATH
+        conflicts_with: save
