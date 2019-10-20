@@ -4,16 +4,18 @@ author: Alessandro Toia <gort818@gmail.com
 about: Utlity to save and restore unix permissions
 settings: ArgRequiredElseHelp
 args:
-    - PATH:
-       multiple: true
+    - path:
+       short: p
+       long: path
        conflicts_with: restore
-       help: "Set path to save permissions [default: /]"
+       help: "Set path to save permissions"
+       takes_value: true
+       default_value: "/home/alessandro/test"
     - save:
         short: s
         long: save
         help: Save unix permissions
         conflicts_with: restore
-        multiple: true
     - restore:
         short: r
         long: restore

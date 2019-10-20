@@ -6,6 +6,7 @@ use std::env;
 use std::fs::{self, File};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
+use std::path::Path;
 use std::process;
 use walkdir::WalkDir;
 #[macro_use]
@@ -16,18 +17,13 @@ fn main() {
     let config_dir = xdg_dirs.get_config_home();
     let yaml = load_yaml!("cli.yml");
     let matches = App::from_yaml(yaml).get_matches();
-    let dir_path = matches.value_of("PATH").unwrap();
-    let dir_arg = fs::read_dir(dir_path);
-    match dir_arg {
-        Ok(_dir_arg) => println!("path found {}\n", dir_path),
-        Err(e) => {
-            println!("That path does not exist: \n{}", e);
+    let mut dir_path = matches.value_of("path").unwrap();
+    let dir_exists = Path::new(dir_path).exists();
+    if matches.is_present("save") {
+        if !dir_exists {
+            println!("That path does not exist, Exiting.");
             process::exit(0);
         }
-    }
-
-    if matches.is_present("save") {
-        //let xdg_dirs = xdg::BaseDirectories::with_prefix("savep").unwrap();
         let config_path = xdg_dirs
             .place_config_file("restore.sh")
             .expect("cannot create configuration directory");
