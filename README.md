@@ -17,3 +17,17 @@ FLAGS:
 OPTIONS:
     -p, --path <path>    Set path to save permissions [Default: ~/]
 ```
+
+## Examples
+
+```
+>to Save all permissions starting from root
+permrs -sp /
+
+>To Save all permissions in your home folder
+
+permrs -sp ~/
+
+>To restore your permissions
+
+permrs -r
