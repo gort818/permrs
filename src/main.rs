@@ -2,6 +2,8 @@
 extern crate clap;
 use clap::App;
 extern crate xdg;
+mod restore;
+use restore::restore;
 use std::env;
 use std::fs::File;
 use std::io::Write;
@@ -55,34 +57,5 @@ fn main() {
         }
     } else if matches.is_present("restore") {
         restore(&config_dir);
-    }
-
-    fn restore(run_dir: &Path) {
-        println!("the dir {}", run_dir.display());
-        let dir = env::set_current_dir(run_dir);
-        //TODO also need to check if restore.sh exists!
-        match dir {
-            Ok(_dir) => println!(
-                "Successfully changed working directory to {} ",
-                run_dir.display(),
-            ),
-            Err(error) => {
-                println!("Please run the save option first!\nError: {}", error);
-                process::exit(0);
-            }
-        }
-        println!("Restoring permissions please wait...\n");
-        let (code, output, error) = run_script!(
-            r#"
-         chmod +x ./restore.sh
-        ./restore.sh
-        exit 0
-        "#
-        )
-        .unwrap();
-
-        println!("Output: \n{}", output);
-        println!("Error: {}", error);
-        println!("Exit Code: {}", code);
     }
 }
