@@ -3,6 +3,8 @@
 
 ## Utlity to save and restore unix permissions
 
+```
+
 USAGE:
     permrs [FLAGS] [OPTIONS]
 
@@ -14,4 +16,4 @@ FLAGS:
 
 OPTIONS:
     -p, --path <path>    Set path to save permissions [Default: ~/]
-
+```
