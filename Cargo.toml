@@ -9,3 +9,4 @@ clap =  {version ="2.33.0", features = ["yaml"]}
 xdg = "2.2.0"
 run_script = "0.3.2"
 walkdir = "2.2.9"
+dirs = "2.0.2"
