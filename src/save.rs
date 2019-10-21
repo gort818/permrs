@@ -7,7 +7,6 @@ use walkdir::WalkDir;
 
 pub fn save(xdg_loc: &xdg::BaseDirectories, dir_arg: &str) {
     let dir_exists = Path::new(dir_arg).exists();
-
     if !dir_exists {
         println!("That path does not exist, Exiting.");
         process::exit(0);

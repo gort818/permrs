@@ -2,12 +2,11 @@ use std::env;
 use std::path::Path;
 use std::process;
 pub fn restore(run_dir: &Path) {
-    println!("the dir {}", run_dir.display());
     let dir = env::set_current_dir(run_dir);
     //TODO also need to check if restore.sh exists!
     match dir {
         Ok(_dir) => println!(
-            "Successfully changed working directory to {} ",
+            "\nSuccessfully changed working directory to {} ",
             run_dir.display(),
         ),
         Err(error) => {
