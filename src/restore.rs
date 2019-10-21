@@ -1,9 +1,9 @@
 use std::env;
+use std::fs::File;
 use std::path::Path;
 use std::process;
 pub fn restore(run_dir: &Path) {
     let dir = env::set_current_dir(run_dir);
-    //TODO also need to check if restore.sh exists!
     match dir {
         Ok(_dir) => println!(
             "\nSuccessfully changed working directory to {} ",
@@ -14,6 +14,19 @@ pub fn restore(run_dir: &Path) {
             process::exit(0);
         }
     }
+
+    let file = File::open("restore.sh");
+    match file {
+        Ok(_file) => println!("\nrestore.sh found continuing... "),
+        Err(error) => {
+            println!(
+                "restore.sh not found please run the save option again.\nError: {}",
+                error
+            );
+            process::exit(0);
+        }
+    }
+
     println!("Restoring permissions please wait...\n");
     let (code, output, error) = run_script!(
         r#"
