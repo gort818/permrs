@@ -54,12 +54,17 @@ fn main() {
                 .expect("unable to write");
         }
     } else if matches.is_present("restore") {
-        let dir = env::set_current_dir(&config_dir);
+        restore(&config_dir);
+    }
+
+    fn restore(run_dir: &Path) {
+        println!("the dir {}", run_dir.display());
+        let dir = env::set_current_dir(run_dir);
         //TODO also need to check if restore.sh exists!
         match dir {
             Ok(_dir) => println!(
                 "Successfully changed working directory to {} ",
-                config_dir.display(),
+                run_dir.display(),
             ),
             Err(error) => {
                 println!("Please run the save option first!\nError: {}", error);
