@@ -21,16 +21,17 @@ OPTIONS:
 ## Examples
 
 
-1. to Save all permissions starting from root
-`permrs -sp /`
+1. To Save all permissions starting from root
+
+   `permrs -sp /`
 
 
 2. To Save all permissions in your home folder
 
-`permrs -sp ~/`
+   `permrs -sp ~/`
 
 
 3. To restore your permissions
 
-`permrs -r`
+   `permrs -r`
 
