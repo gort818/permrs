@@ -27,17 +27,16 @@ pub fn save(xdg_loc: &xdg::BaseDirectories, dir_arg: &str) {
             .nth(3)
             .unwrap();
         let last_four = &perm_oct[last_four_at..];
-        //TODO sperate output and echo command for restore.sh
-        let output = format!(
-            "chmod {} \"{}\"\necho running chmod {} on \"{}\"\n",
-            last_four,
-            entry.path().display(),
+        let output = format!("chmod {} \"{}\"\n", last_four, entry.path().display());
+        let echo = format!(
+            "echo running chmod {} on \"{}\"\n",
             last_four,
             entry.path().display()
         );
+        let final_output = format!("{}{}", output, echo);
         print!("{}", output);
         config_file
-            .write_all(output.as_bytes())
+            .write_all(final_output.as_bytes())
             .expect("unable to write");
     }
 }
