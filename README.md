@@ -1,4 +1,4 @@
-# permRS
+# permRS - Permission Restore
 
 
 ## Utlity to save and restore unix permissions
