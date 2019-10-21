@@ -7,9 +7,9 @@ args:
     - path:
        short: p
        long: path
-       help: "Set path to save permissions"
+       help: "Set path to save permissions [Default: ~/]"
        takes_value: true
-       default_value: "/home/alessandro/test"
+      # default_value: "/home/$USER/.config/"
     - save:
         short: s
         long: save
