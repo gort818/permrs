@@ -41,6 +41,8 @@ permRS will automatically skip any directories or files you do not have access t
 
 Run permRS as root if you want your permissions on all your directorties or files.
 
+Do not use relative paths use full paths!
+
 ## Building
 Requirements: Rust, Cargo
 
@@ -49,3 +51,5 @@ Requirements: Rust, Cargo
 `cd permrs`
 
 `cargo build --release`
+
+`Binary will be created in /permrs/target/release/`
