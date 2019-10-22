@@ -35,6 +35,11 @@ OPTIONS:
 3. To restore your permissions
 
    `permrs -r`
+   
+4. If you ran permrs -s as root use restore as root.
+
+   `sudo permrs -r`
+   
 ## Notes
 
 permRS will automatically skip any directories or files you do not have access to as a regular user.
