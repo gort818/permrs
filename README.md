@@ -24,7 +24,7 @@ OPTIONS:
 
 1. To Save all permissions starting from root
 
-   `permrs -sp /`
+   `sudo permrs -sp /`
 
 
 2. To Save all permissions in your home folder
@@ -35,4 +35,17 @@ OPTIONS:
 3. To restore your permissions
 
    `permrs -r`
+## Notes
 
+permRS will automatically skip any directories or files you do not have access to as a regular user.
+
+Run permRS as root if you want your permissions on all your directorties or files.
+
+## Building
+Requirements: Rust, Cargo
+
+`git clone https://github.com/gort818/permrs`
+
+`cd permrs`
+
+`cargo build --release`
