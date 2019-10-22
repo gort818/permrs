@@ -1,3 +1,4 @@
+use std::fs;
 use std::fs::File;
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
@@ -11,12 +12,13 @@ pub fn save(xdg_loc: &xdg::BaseDirectories, dir_arg: &str) {
         println!("That path does not exist, Exiting.");
         process::exit(0);
     }
+    let real_path = fs::canonicalize(&dir_arg).unwrap();
     let config_path = xdg_loc
         .place_config_file("restore.sh")
         .expect("cannot create configuration directory");
     let mut config_file = File::create(config_path).unwrap();
     writeln!(config_file, "#!/bin/bash").expect("could not write to file");
-    for entry in WalkDir::new(dir_arg).into_iter().filter_map(|e| e.ok()) {
+    for entry in WalkDir::new(real_path).into_iter().filter_map(|e| e.ok()) {
         let entry = entry;
         let permissions = entry.metadata().unwrap().permissions().mode();
         let perm_oct = format!("{:o}", permissions);
