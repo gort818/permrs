@@ -30,6 +30,10 @@ OPTIONS:
 2. To Save all permissions in your home folder
 
    `permrs -sp ~/`
+   
+3. To save permisions in your working path
+
+   `permrs -sp ./`
 
 
 3. To restore your permissions
@@ -46,7 +50,6 @@ permRS will automatically skip any directories or files you do not have access t
 
 Run permRS as root if you want your permissions on all your directorties or files.
 
-Do not use relative paths use full paths!
 
 ## Building
 Requirements: Rust, Cargo
