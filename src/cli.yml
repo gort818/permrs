@@ -1,6 +1,6 @@
 name: permrs
 version: "0.1.0"
-author: Alessandro Toia <gort818@gmail.com
+author: Alessandro Toia <gort818@gmail.com>
 about: Utlity to save and restore unix permissions
 settings: ArgRequiredElseHelp
 args:
