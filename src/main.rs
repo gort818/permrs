@@ -7,7 +7,6 @@ mod save;
 use save::save;
 mod restore;
 use restore::restore;
-use std::env;
 #[macro_use]
 extern crate run_script;
 
