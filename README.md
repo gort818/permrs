@@ -44,6 +44,11 @@ OPTIONS:
 
    `sudo permrs -r`
    
+   
+## Installation
+
+  Refer the [AUR package](https://aur.archlinux.org/packages/permrs/).
+   
 ## Notes
 
 permRS will automatically skip any directories or files you do not have access to as a regular user.
