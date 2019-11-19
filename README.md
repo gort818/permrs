@@ -4,7 +4,7 @@
 
 ## Utlity to save and restore unix permissions
 
-#### Use permRS to created a backup of file permissions just in case you acctidenly run chmod where you are not supposed to.
+#### Use permRS to created a backup of file permissions just in case you accidentally run chmod where you are not supposed to.
 ```
 
 USAGE:
